@@ -1,7 +1,7 @@
 {
   "name": "cassieah-bot",
   "author": "Liane Cagara",
-  "version": "4.1.0-dev",
+  "version": "4.1.1-dev",
   "description": "(Formerly CassidySpectra) Reworked Versatile Facebook Bot framework that provides many features.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "clean": "rm -rf ./dist-commandfiles",
     "update": "sh updater.sh",
     "postinstall": "patch-package"
-  },
+  }, 
   "keywords": [],
   "type": "commonjs",
   "license": "ISC",
@@ -31,7 +31,7 @@
     "baybayin-transliterator": "^0.0.2",
     "betabotz-tools": "^0.0.7",
     "body-parser": "^1.20.2",
-    "cassidy-styler": "^1.2.2",
+    "cassidy-styler": "^1.2.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "debug": "^4.4.0",
