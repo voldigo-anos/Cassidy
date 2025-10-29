@@ -2,6 +2,9 @@
 import { CassEXP } from "../modules/cassEXP.js";
 import { clamp } from "@cassidy/unispectra";
 
+/**
+ * @type {CommandStyle}
+ */
 export const style = {
   title: "Tiles 🟨",
   titleFont: "bold",
@@ -211,14 +214,13 @@ export let a = new Tiles({});
  */
 export async function reply({
   input,
-  output: { ...output },
+  output,
   repObj,
   money,
   commandName,
   Inventory,
 }) {
-  output.reply = (...args) =>
-    output.replyStyled(args[0], style, ...args.slice(1));
+  output.setStyle(style);
   try {
     let { board, author, xID, name, isEnd, coins, explodes } = repObj;
     if (isEnd) {

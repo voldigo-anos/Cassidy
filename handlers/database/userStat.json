@@ -1,9 +1,9 @@
 {
   "web:bmVha3l1dGk": {
-    "money": 1010221,
+    "money": 10,
     "exp": 0,
     "battlePoints": 410,
-    "lastModified": 1761725907578,
+    "lastModified": 1761726515602,
     "name": "Liane",
     "usernameHistory": [
       "Liane"
@@ -356,6 +356,19 @@
         "isGift": true,
         "uuid": "1759317145057_80e209d3-7b5e-4e72-a740-ff1beeaf0f05",
         "index": 16,
+        "cannotToss": false
+      },
+      {
+        "key": "tilesBomb",
+        "name": "Tiles Bomb",
+        "flavorText": "These are leftover bombs from the tiles game, you need to get rid of these ASAP.",
+        "icon": "💣",
+        "sellPrice": 100,
+        "type": "weapon",
+        "atk": 5,
+        "def": 1,
+        "uuid": "1761726515599_d824d8cd-b1f8-43cc-8b0b-f635602c3649",
+        "index": 18,
         "cannotToss": false
       },
       {
@@ -1103,6 +1116,6 @@
       "tileIcon": "🟨",
       "emptyIcon": "⬜"
     },
-    "tilesRunStamp": 1761725907577
+    "tilesRunStamp": 1761726512987
   }
 }
