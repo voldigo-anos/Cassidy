@@ -5,7 +5,7 @@ export const meta: CommandMeta = {
   name: "quote",
   description: "Generate a quote image VIA CanvCass",
   author: "Liane Cagara",
-  version: "2.0.0",
+  version: "2.0.1",
   usage: "{prefix}{name} <text>",
   category: "Media",
   permissions: [0],
@@ -46,7 +46,7 @@ export async function entry({
     return output.reply("❌ Only facebook users can use this command.");
   }
 
-  const quoteText = args.join(" ");
+  const quoteText = `“${args.join(" ")}”`;
 
   let url = await usersDB.getAvatarURL(uid);
   if (!url) {
@@ -67,21 +67,26 @@ export async function entry({
       height: canv.height,
     });
 
+    const bottomHalfRect = CanvCass.createRect({
+      top: canv.height / 2,
+      left: 0,
+      width: canv.width,
+      height: canv.height / 2,
+    });
+
     const gradient = canv.tiltedGradient(
-      canv.width,
-      canv.height / 2,
+      bottomHalfRect.width,
+      bottomHalfRect.height * 2,
       Math.PI / 2,
       [
         [0, "transparent"],
+        [0.5, "transparent"],
         [1, "black"],
       ]
     );
 
     canv.drawBox({
-      left: 0,
-      top: canv.height / 2,
-      width: canv.width,
-      height: canv.height / 2,
+      rect: bottomHalfRect,
       fill: gradient,
     });
 
@@ -94,12 +99,26 @@ export async function entry({
       fill: "rgba(255, 255, 255, 0.97)",
       x: canv.centerX,
       breakTo: "top",
-      y: canv.bottom - 120,
+      y: canv.bottom - 100,
       breakMaxWidth: canv.width - 60 * 2,
     });
 
+    const name = info?.name ?? userName;
+
+    canv.drawText(`- ${name}`, {
+      align: "center",
+      vAlign: "bottom",
+      baseline: "middle",
+      fontType: "cbold",
+      size: 35,
+      fill: "rgba(255, 255, 255, 0.5)",
+      x: canv.centerX,
+      breakTo: "top",
+      y: canv.bottom - 90,
+      breakMaxWidth: canv.width - 60 * 2,
+    });
     await output.reply({
-      body: `📝 Quote from ***${info?.name ?? userName}***:`,
+      body: `📝 Quote from ***${name}***:`,
       attachment: await canv.toStream(),
     });
 

@@ -684,13 +684,25 @@ export class CanvCass implements CanvCass.Rect {
         text,
       },
       breakMaxWidth
-    );
+    ).filter(Boolean);
 
     let tx = x;
     let ty = y;
 
     if (breakTo === "top") {
+      lines.reverse();
       ty -= lineHeight * (lines.length - 1);
+    }
+
+    switch (vAlign) {
+      case "top":
+        break;
+      case "middle":
+        ty -= (lineHeight * (lines.length - 1)) / 2;
+        break;
+      case "bottom":
+        ty -= lineHeight * (lines.length - 1);
+        break;
     }
     for (const line of lines) {
       if (stroke) {
