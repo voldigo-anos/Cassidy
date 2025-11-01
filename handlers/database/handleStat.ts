@@ -793,13 +793,20 @@ export default class UserStatsManager {
         url: res.request.res.responseUrl as string,
       };
     } catch (error) {
-      return null;
+      return {
+        res: null,
+        url: this.fallbackAva,
+      };
     }
   }
+  fallbackAva: "https://pixabay.com/get/g6b010603a8a419317f773ab371d97e9af1356abd642edf8e2603583713e3699fca8e923b2d119b1f00eaecb71c96b96b6075b4079e6644eae8c4dad5cc990db0af5ce8a33aacae3c00acd4167fd559fa_640.png";
   async ensureAvatarURL(uid: string, forceNew = false) {
     try {
       const user = await this.getCache(uid);
-      if (!user.avatarURL || forceNew) {
+      if (
+        (!user.avatarURL || forceNew || user.avatarURL === this.fallbackAva) &&
+        !/\D+/.test(uid)
+      ) {
         try {
           const { url } = await this.getAvatarURLNew(uid);
           await this.setItem(uid, {
@@ -807,13 +814,13 @@ export default class UserStatsManager {
           });
           return url;
         } catch (error) {
-          return null;
+          return this.fallbackAva;
         }
       }
 
-      return null;
+      return user.avatarURL || this.fallbackAva;
     } catch (error) {
-      return null;
+      return this.fallbackAva;
     }
   }
 
