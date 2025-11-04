@@ -3,10 +3,11 @@
     "money": 9980419,
     "exp": 0,
     "battlePoints": 510,
-    "lastModified": 1761817415520,
-    "name": "Liane",
+    "lastModified": 1762247789705,
+    "name": "Kayelaa Cagara",
     "usernameHistory": [
-      "Liane"
+      "Liane",
+      "Kayelaa Cagara"
     ],
     "cassExpress": {
       "mailList": [
@@ -26,6 +27,12 @@
           "body": "Congratulations **Liane** for claiming your daily reward!",
           "timeStamp": 1759299119994,
           "title": "Daily Reward Claimed",
+          "author": "web:bmVha3l1dGk"
+        },
+        {
+          "body": "Your name has been updated!\n\n➤ Old Name: **Liane**\n➥ New Name: **Kayelaa Cagara**\n➥ Changed on: 11/4/2025, 5:16:29 PM",
+          "timeStamp": 1762247789704,
+          "title": "🍃 Name Changed",
           "author": "web:bmVha3l1dGk"
         }
       ],

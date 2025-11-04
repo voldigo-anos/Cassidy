@@ -865,6 +865,7 @@ export class CanvCass implements CanvCass.Rect {
       yMargin = 0,
       breakTo = "bottom",
       breakMaxWidth = Infinity,
+      letterSpacing,
     } = options;
     const origY = y;
 
@@ -877,9 +878,12 @@ export class CanvCass implements CanvCass.Rect {
     }
 
     ctx.save();
+    if (typeof letterSpacing === "number") {
+      ctx.letterSpacing = `${letterSpacing}px`;
+    }
 
     const lineHeight = size + (yMargin ?? 0);
-    const direction = breakTo === "top" ? -1 : 1;
+    const direction = breakTo === "top" ? -1 : breakTo === "center" ? 1 : 1;
 
     ctx.font = font;
     ctx.textAlign = align;
@@ -900,6 +904,9 @@ export class CanvCass implements CanvCass.Rect {
     if (breakTo === "top") {
       lines.reverse();
     }
+    if (breakTo === "center") {
+      ty -= ((lines.length - 1) / 2) * lineHeight;
+    }
 
     const linePos: [number, number][] = [];
 
@@ -915,6 +922,8 @@ export class CanvCass implements CanvCass.Rect {
       }
       linePos.push([tx, ty]);
       ty += lineHeight * direction;
+      if (breakTo === "center") {
+      }
     }
 
     let modY = y;
@@ -938,6 +947,11 @@ export class CanvCass implements CanvCass.Rect {
       ...(breakTo === "top"
         ? {
             bottom: origY,
+          }
+        : {}),
+      ...(breakTo === "center"
+        ? {
+            centerY: origY,
           }
         : {}),
       ...(align === "left"
@@ -1059,10 +1073,19 @@ export class CanvCass implements CanvCass.Rect {
       options.fontType ??= "cnormal";
       options.size ??= 50;
       if (options.fontType === "cbold") {
-        options.cssFont = `bold ${options.size}px Cassieah-Bold, EMOJI, sans-serif`;
+        options.cssFont = `bold ${options.size}px ${
+          options.fontFamily ?? `Cassieah-Bold`
+        }, EMOJI, sans-serif`;
       }
       if (options.fontType === "cnormal") {
-        options.cssFont = `normal ${options.size}px Cassieah, EMOJI, sans-serif`;
+        options.cssFont = `normal ${options.size}px ${
+          options.fontFamily ?? `Cassieah`
+        }, EMOJI, sans-serif`;
+      }
+      if (options.fontType === "auto") {
+        options.cssFont = `${options.size}px ${
+          options.fontFamily ?? `Cassieah`
+        }, EMOJI, sans-serif`;
       }
     }
   }
@@ -1503,6 +1526,11 @@ export namespace CanvCass {
      * The text you wanna draw.
      */
     text: string;
+
+    /**
+     * Space between characters
+     */
+    letterSpacing?: number;
     /**
      * Reference X (depends on align.)
      */
@@ -1522,7 +1550,7 @@ export namespace CanvCass {
     /**
      * Changes whether the text will break naturally (to bottom) or opposite (top)
      */
-    breakTo?: "top" | "bottom";
+    breakTo?: "top" | "bottom" | "center";
     /**
      * Don't use this no matter what.
      */
@@ -1530,7 +1558,11 @@ export namespace CanvCass {
     /**
      * Default stable font options (for the sake of standardization.)
      */
-    fontType?: "cbold" | "cnormal" | "css";
+    fontType?: "cbold" | "cnormal" | "css" | "auto";
+    /**
+     * Use a font family, default Cassieah/Cassieah-Bold
+     */
+    fontFamily?: string;
     /**
      * Font size.
      */
@@ -1563,7 +1595,7 @@ export namespace CanvCass {
   export interface MeasureTextParam {
     text: string;
     cssFont?: string;
-    fontType?: "cbold" | "cnormal" | "css";
+    fontType?: DrawTextParam["fontType"];
     size?: number;
   }
 
